@@ -1,4 +1,4 @@
-import { NavLink, useOutletContext, useParams } from "react-router";
+import { NavLink, useNavigate, useOutletContext, useParams } from "react-router";
 import { type ProductType } from "../../lib/types";
 import { Button } from "../../components/button";
 import { MinusIcon, PlusIcon } from "lucide-react";
@@ -8,6 +8,7 @@ import { addToCart } from "../../store/slices/cartSlice";
 
 const SingleProductCustomize = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { productId } = useParams();
   const [quantity, setQuantity] = useState(1);
   const [customization, setCustomization] = useState({
@@ -16,6 +17,7 @@ const SingleProductCustomize = () => {
   });
   const { product } = useOutletContext<{ product: ProductType }>();
   const total = product.price * quantity;
+
   return (
     <div className="fixed inset-0 bg-black/60 z-100 flex items-center justify-center">
       <NavLink
@@ -93,6 +95,7 @@ const SingleProductCustomize = () => {
               dispatch(
                 addToCart({ productId, customization, qty: quantity }),
               );
+              navigate("/shop/cart")
             }}
           >
             Add to cart

@@ -23,7 +23,7 @@ export const cartSlice = createSlice({
           JSON.stringify(customization) ===
             JSON.stringify(payload.customization),
       );
-      if (!isAlreadyinCart) state.cart = [{ ...payload }];
+      if (!isAlreadyinCart) state.cart = [{ ...payload }, ...state.cart];
       else {
         state.cart = state.cart.map((item) => {
           if (
@@ -39,11 +39,52 @@ export const cartSlice = createSlice({
           return item;
         });
       }
+      localStorage.setItem("cart-data", JSON.stringify(state.cart));
     },
-    
+    incrementProductInCart: (state, { payload }) => {
+      state.cart = state.cart.map((item, i) => {
+        if (i === payload) {
+          return {
+            ...item,
+            qty: item.qty + 1,
+          };
+        }
+        return item;
+      });
+      localStorage.setItem("cart-data", JSON.stringify(state.cart));
+    },
+    decrementProductInCart: (state, { payload }) => {
+      state.cart = state.cart.map((item, i) => {
+        if (i === payload) {
+          return {
+            ...item,
+            qty: item.qty - 1,
+          };
+        }
+        return item;
+      });
+      localStorage.setItem("cart-data", JSON.stringify(state.cart));
+    },
+    removeProductFromCart: (state, { payload }) => {
+      state.cart = state.cart.filter((_, i) => i !== payload);
+      localStorage.setItem("cart-data", JSON.stringify(state.cart));
+    },
+    loadCartDataFromLocalStorage: (state) => {
+      const cartLocalData = localStorage.getItem("cart-data");
+      if (cartLocalData) {
+        const parsedCartData = JSON.parse(cartLocalData);
+        state.cart = parsedCartData;
+      }
+    },
   },
 });
 
-export const { addToCart } = cartSlice.actions;
+export const {
+  addToCart,
+  loadCartDataFromLocalStorage,
+  incrementProductInCart,
+  decrementProductInCart,
+  removeProductFromCart
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

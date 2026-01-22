@@ -1,7 +1,9 @@
 import { Fragment } from "react/jsx-runtime";
 import { NavLink } from "react-router";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../redux/rootReducer";
+import { useEffect } from "react";
+import { loadCartDataFromLocalStorage } from "../store/slices/cartSlice";
 
 const navItems = [
   {
@@ -19,6 +21,13 @@ const navItems = [
 ];
 export const Navbar = () => {
   const { cart } = useSelector((state: RootState) => state.cart);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(loadCartDataFromLocalStorage());
+    return () => {};
+  }, []);
+
   console.log({ cart });
   const totalItems = cart.reduce((acc, { qty }) => acc + qty, 0);
   return (
@@ -36,7 +45,7 @@ export const Navbar = () => {
                   <NavLink
                     to={item.href}
                     className={({ isActive }) =>
-                      `text-sm  cursor-pointer transition ${isActive ? "text-amber-300" : "text-slate-300 hover:text-slate-50"}`
+                      `text-sm flex gap-2 cursor-pointer transition ${isActive ? "text-amber-300" : "text-slate-300 hover:text-slate-50"}`
                     }
                   >
                     {item.name}
