@@ -1,0 +1,23 @@
+import axios from "axios";
+
+export const apiService = axios.create({
+  baseURL: import.meta.env.BASE_URL,
+  timeout: 1000 * 60 * 5,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+apiService.interceptors.request.use(
+  (req) => {
+    const accessToken = localStorage.getItem("localStorage");
+    if (accessToken) {
+      req.headers["Authorization"] = `Bearer ${accessToken}`;
+    }
+    return req;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
+
