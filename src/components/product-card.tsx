@@ -1,5 +1,6 @@
 import React from "react";
 import type { ProductType } from "../lib/types";
+import { NavLink } from "react-router";
 
 interface ProductCardProps {
   product: ProductType;
@@ -13,7 +14,10 @@ export const ProductCard = React.memo(function ProductCard({
   const isPremium = product.price > 500 ? true : false;
 
   return (
-    <div
+    <NavLink
+      to={{
+        pathname: `/shop/product/${product.id}`,
+      }}
       className={`bg-gray-100 rounded-md h-max p-4 flex flex-col gap-3 relative ${isPremium ? "border border-sky-500" : ""}`}
     >
       <div>
@@ -62,6 +66,6 @@ export const ProductCard = React.memo(function ProductCard({
       >
         Added to cart
       </div>
-    </div>
+    </NavLink>
   );
 });
