@@ -19,7 +19,7 @@ export default function AddProductModal({ onClose }: ModalContentProps) {
       queryClient.invalidateQueries({ queryKey: ["products"] }); //Invalidating the query of products that will auto refetch the latest products
     },
     onError: (error) => {
-      toast.error("Failed to add product Error: " + JSON.stringify(error));
+      toast.error("Failed to add product Error: " + error?.message);
     },
   });
   const {

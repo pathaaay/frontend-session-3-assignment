@@ -1,15 +1,13 @@
-import { useNavigate, useParams } from "react-router";
-import { fetchProductById } from "../../queries/product";
+import { type UseQueryResult } from "@tanstack/react-query";
+import { useOutletContext } from "react-router";
+import type { ProductType } from "../../lib/types";
 
 const SingleProduct = () => {
-  const navigate = useNavigate();
-  const { productId } = useParams();
-  if (!productId) {
-    navigate("/");
-    return;
-  }
+  const { data, isFetching, error } =
+    useOutletContext<UseQueryResult<ProductType>>();
 
-  const { data, isFetching, error } = fetchProductById(productId);
+  if (!data) return null;
+
   return (
     <>
       {isFetching ? (

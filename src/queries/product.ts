@@ -1,5 +1,5 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { createProduct, getProductById, getProducts } from "../actions/product";
+import { useQuery } from "@tanstack/react-query";
+import { getProductById, getProducts } from "../actions/product";
 import { type ProductType } from "../lib/types";
 
 export const fetchProducts = () =>
