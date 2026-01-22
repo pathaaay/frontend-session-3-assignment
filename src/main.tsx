@@ -10,6 +10,7 @@ import SingleProductCustomize from "./pages/productId/single-product-customize.t
 import NotFoundPage from "./pages/not-found.tsx";
 import MainLayout from "./layouts/main-layout.tsx";
 import CartPage from "./pages/cart.tsx";
+import ShopLayout from "./layouts/shop-layout.tsx";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
       { index: true, element: <App /> },
       {
         path: "shop",
+        element: <ShopLayout />,
         children: [
           {
             path: "products",

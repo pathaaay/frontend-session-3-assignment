@@ -3,10 +3,6 @@ import { NavLink } from "react-router";
 
 const navItems = [
   {
-    name: "Home",
-    href: "/",
-  },
-  {
     name: "Products",
     href: "/shop/products",
   },
