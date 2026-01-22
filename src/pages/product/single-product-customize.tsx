@@ -1,7 +1,10 @@
-import { NavLink, useNavigate, useOutletContext, useParams } from "react-router";
+import {
+  NavLink,
+  useNavigate,
+  useOutletContext,
+  useParams,
+} from "react-router";
 import { type ProductType } from "../../lib/types";
-import { Button } from "../../components/button";
-import { MinusIcon, PlusIcon } from "lucide-react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../store/slices/cartSlice";
@@ -10,13 +13,11 @@ const SingleProductCustomize = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { productId } = useParams();
-  const [quantity, setQuantity] = useState(1);
   const [customization, setCustomization] = useState({
     color: "blue",
     size: "UK-7",
   });
   const { product } = useOutletContext<{ product: ProductType }>();
-  const total = product.price * quantity;
 
   return (
     <div className="fixed inset-0 bg-black/60 z-100 flex items-center justify-center">
@@ -29,7 +30,6 @@ const SingleProductCustomize = () => {
           <div>{product?.title}</div>
           <div>Price: ${product?.price}</div>
           <div>In Stock: {product?.stock}</div>
-          <div>Total Amount: {total.toFixed(2)}</div>
           <div className="flex items-center gap-2">
             Select Color:{" "}
             <div className="flex items-center gap-1">
@@ -62,40 +62,11 @@ const SingleProductCustomize = () => {
               ))}
             </div>
           </div>
-          <div className="flex items-center justify-between w-max gap-3">
-            <Button
-              variant="outline"
-              className="flex items-center justify-center gap-2 w-max"
-              disabled={quantity <= 0}
-              onClick={() => {
-                setQuantity((prev) => prev - 1);
-              }}
-            >
-              <MinusIcon />
-            </Button>
-            <div className="bg-gray-100 px-2 p-1 text-center w-full rounded-md">
-              {quantity}
-            </div>
-            <Button
-              variant="outline"
-              className={`flex items-center justify-center gap-2 w-max ${quantity >= product.stock ? "opacity-70! cursor-not-allowed!" : ""}`}
-              title={quantity >= product.stock ? "Max Quanitity reached" : ""}
-              disabled={quantity >= product.stock}
-              onClick={() => {
-                setQuantity((prev) => prev + 1);
-              }}
-            >
-              <PlusIcon />
-            </Button>
-          </div>
           <button
-            className={`bg-blue-500 cursor-pointer text-white font-bold py-2 px-4 rounded ${quantity === 0 ? "opacity-75 cursor-not-allowed" : "hover:bg-blue-600"}`}
-            disabled={quantity === 0}
+            className={`bg-blue-500 cursor-pointer text-white font-bold py-2 px-4 rounded hover:bg-blue-600`}
             onClick={() => {
-              dispatch(
-                addToCart({ productId, customization, qty: quantity }),
-              );
-              navigate("/shop/cart")
+              dispatch(addToCart({ product, customization }));
+              navigate("/shop/cart");
             }}
           >
             Add to cart

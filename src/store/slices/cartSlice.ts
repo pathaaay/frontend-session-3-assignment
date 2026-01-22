@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import type { ProductType } from "../../lib/types";
 
 interface CartState {
   cart: Array<{
-    productId: number;
-    customization: { color: string; size: string };
-    qty: number;
+    product: ProductType;
+    customizations: Array<{ color: string; size: string; qty: number }>;
   }>;
 }
 
@@ -18,22 +18,28 @@ export const cartSlice = createSlice({
   reducers: {
     addToCart: (state, { payload }) => {
       const isAlreadyinCart = state.cart.find(
-        ({ productId, customization }) =>
-          productId === payload.productId &&
-          JSON.stringify(customization) ===
-            JSON.stringify(payload.customization),
+        ({ product }) => product.id === payload.product.id,
       );
-      if (!isAlreadyinCart) state.cart = [{ ...payload }, ...state.cart];
+      if (!isAlreadyinCart)
+        state.cart = [
+          {
+            product: payload.product,
+            customizations: [{ ...payload.customization, qty: 1 }],
+          },
+          ...state.cart,
+        ];
       else {
         state.cart = state.cart.map((item) => {
-          if (
-            item.productId === payload.productId &&
-            JSON.stringify(item.customization) ===
-              JSON.stringify(payload.customization)
-          ) {
+          if (item.product.id === payload.product.id) {
             return {
               ...item,
-              qty: item.qty + payload.qty,
+              customizations: [
+                ...item.customizations,
+                {
+                  ...payload.customization,
+                  qty: 1,
+                },
+              ],
             };
           }
           return item;
@@ -42,32 +48,69 @@ export const cartSlice = createSlice({
       localStorage.setItem("cart-data", JSON.stringify(state.cart));
     },
     incrementProductInCart: (state, { payload }) => {
-      state.cart = state.cart.map((item, i) => {
-        if (i === payload) {
+      const { product } = payload;
+      state.cart = state.cart.map((item) => {
+        if (item.product.id === product.id) {
           return {
             ...item,
-            qty: item.qty + 1,
+            customizations: item.customizations.map((customization) => {
+              if (
+                customization.color === product.color &&
+                customization.size === product.size
+              ) {
+                return {
+                  ...customization,
+                  qty: customization.qty + 1,
+                };
+              }
+              return customization;
+            }),
           };
-        }
-        return item;
+        } else return item;
       });
       localStorage.setItem("cart-data", JSON.stringify(state.cart));
     },
     decrementProductInCart: (state, { payload }) => {
-      state.cart = state.cart.map((item, i) => {
-        if (i === payload) {
+      const { product } = payload;
+      state.cart = state.cart.map((item) => {
+        if (item.product.id === product.id) {
           return {
             ...item,
-            qty: item.qty - 1,
+            customizations: item.customizations.map((customization) => {
+              if (
+                customization.color === product.color &&
+                customization.size === product.size
+              ) {
+                return {
+                  ...customization,
+                  qty: customization.qty - 1,
+                };
+              }
+              return customization;
+            }),
           };
-        }
-        return item;
+        } else return item;
       });
       localStorage.setItem("cart-data", JSON.stringify(state.cart));
     },
     removeProductFromCart: (state, { payload }) => {
-      state.cart = state.cart.filter((_, i) => i !== payload);
+      state.cart = state.cart.map((data) => {
+        if (data.product.id === payload.id) {
+          return {
+            ...data,
+            customizations: data.customizations.filter(
+              ({ color, size }) =>
+                !(color === payload.color && size === payload.size),
+            ),
+          };
+        }
+        return data;
+      });
       localStorage.setItem("cart-data", JSON.stringify(state.cart));
+    },
+    clearCart: (state) => {
+      state.cart = [];
+      localStorage.removeItem("cart-data");
     },
     loadCartDataFromLocalStorage: (state) => {
       const cartLocalData = localStorage.getItem("cart-data");
@@ -84,7 +127,8 @@ export const {
   loadCartDataFromLocalStorage,
   incrementProductInCart,
   decrementProductInCart,
-  removeProductFromCart
+  removeProductFromCart,
+  clearCart,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

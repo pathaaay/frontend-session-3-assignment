@@ -28,8 +28,11 @@ export const Navbar = () => {
     return () => {};
   }, []);
 
-  console.log({ cart });
-  const totalItems = cart.reduce((acc, { qty }) => acc + qty, 0);
+  const totalItems = cart.reduce(
+    (acc, { customizations }) =>
+      acc + customizations.reduce((acc2, { qty }) => acc2 + qty, 0),
+    0,
+  );
   return (
     <>
       {/* Desktop Navbar */}

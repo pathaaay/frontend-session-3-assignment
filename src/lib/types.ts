@@ -8,4 +8,6 @@ export interface ProductType {
   thumbnail: string;
   qty: number;
   description: string;
+  color?: string;
+  size?: string;
 }
