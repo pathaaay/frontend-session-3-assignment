@@ -5,13 +5,12 @@ import App from "./App.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import About from "./pages/about.tsx";
 import Products from "./pages/products.tsx";
-import SingleProduct from "./pages/product/single-product.tsx";
 import SingleProductCustomize from "./pages/product/single-product-customize.tsx";
 import NotFoundPage from "./pages/not-found.tsx";
 import MainLayout from "./layouts/main-layout.tsx";
 import CartPage from "./pages/cart.tsx";
 import ShopLayout from "./layouts/shop-layout.tsx";
-import SingleProductLayout from "./layouts/single-product-layout.tsx";
+import SingleProduct from "./pages/product/single-product.tsx";
 
 const router = createBrowserRouter([
   {
@@ -32,12 +31,8 @@ const router = createBrowserRouter([
             children: [
               {
                 path: ":productId",
-                element: <SingleProductLayout />,
+                element: <SingleProduct />,
                 children: [
-                  {
-                    index: true,
-                    element: <SingleProduct />,
-                  },
                   {
                     path: "customize",
                     element: <SingleProductCustomize />,
