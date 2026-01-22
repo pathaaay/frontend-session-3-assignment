@@ -9,7 +9,6 @@ const SingleProduct = () => {
     return;
   }
   const { data, isFetching, error } = fetchProductById(productId);
-  console.log("single product called", isFetching);
   return (
     <>
       {isFetching ? (

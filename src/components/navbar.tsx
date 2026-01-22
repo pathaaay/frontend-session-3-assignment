@@ -1,5 +1,7 @@
 import { Fragment } from "react/jsx-runtime";
 import { NavLink } from "react-router";
+import { useSelector } from "react-redux";
+import type { RootState } from "../redux/rootReducer";
 
 const navItems = [
   {
@@ -16,6 +18,9 @@ const navItems = [
   },
 ];
 export const Navbar = () => {
+  const { cart } = useSelector((state: RootState) => state.cart);
+  console.log({ cart });
+  const totalItems = cart.reduce((acc, { qty }) => acc + qty, 0);
   return (
     <>
       {/* Desktop Navbar */}
@@ -35,6 +40,9 @@ export const Navbar = () => {
                     }
                   >
                     {item.name}
+                    {item.href == "/shop/cart" && cart.length > 0 && (
+                      <div>{totalItems}</div>
+                    )}
                   </NavLink>
                 </div>
               </Fragment>
