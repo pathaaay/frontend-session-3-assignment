@@ -12,7 +12,7 @@ const queryClient = new QueryClient({
 
 const ShopLayout = () => {
   return (
-    <div className="p-5 flex items-center justify-center">
+    <div className="p-5 flex items-center justify-center w-full">
       <QueryClientProvider client={queryClient}>
         <Outlet />
       </QueryClientProvider>

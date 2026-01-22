@@ -1,4 +1,3 @@
-
 export interface ProductType {
   id: number;
   title: string;
@@ -8,4 +7,5 @@ export interface ProductType {
   tags: string[];
   thumbnail: string;
   qty: number;
+  description: string;
 }

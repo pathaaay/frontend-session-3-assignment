@@ -7,6 +7,7 @@ const App = () => {
       <NavLink className={"bg-amber-500 rounded-md p-1"} to={"/shop/products"}>
         View All Products
       </NavLink>
+      
     </div>
   );
 };
