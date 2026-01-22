@@ -29,10 +29,10 @@ const router = createBrowserRouter([
           },
           {
             path: "product",
-            element: <SingleProductLayout />,
             children: [
               {
                 path: ":productId",
+                element: <SingleProductLayout />,
                 children: [
                   {
                     index: true,
