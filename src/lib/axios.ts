@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const apiService = axios.create({
-  baseURL: import.meta.env.BASE_URL,
+  baseURL: import.meta.env.VITE_BASE_URL!,
   timeout: 1000 * 60 * 5,
   headers: {
     "Content-Type": "application/json",
@@ -20,4 +20,3 @@ apiService.interceptors.request.use(
     return Promise.reject(error);
   },
 );
-
