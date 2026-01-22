@@ -14,6 +14,12 @@ apiService.interceptors.request.use(
     if (accessToken) {
       req.headers["Authorization"] = `Bearer ${accessToken}`;
     }
+    if (
+      req.url === "/products/add" &&
+      localStorage.getItem("role") !== "seller"
+    )
+      throw new Error("Only seller can add products");
+
     return req;
   },
   (error) => {
