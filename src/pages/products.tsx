@@ -3,21 +3,27 @@ import { ProductCard } from "../components/product-card";
 import { createPortal } from "react-dom";
 import { useState } from "react";
 import AddProductModal from "../components/add-product-form";
+import { useSelector } from "react-redux";
+import type { RootState } from "../redux/rootReducer";
 
 const Products = () => {
   const { data, isFetching, error } = fetchProducts();
-  const [productModalOpen, setProductModalOpen] = useState(false);
+  const [addproductModalOpen, setAddProductModalOpen] = useState(false);
+  // Using cart here because if the cart data changes then only products will rerendered the product card will only be rendered if the particular product is added or removed from cart.
+  // Note: the product card will be rendered only once either we put here or in product card, because in products page we are not updating cart state in this page so.
+  const { cart } = useSelector((state: RootState) => state.cart);
+  console.log("product page rendering");
   return (
     <div className="flex flex-col justify-start gap-2 p-2 w-full">
       <button
         className="bg-cyan-500 w-max p-1 px-2 rounded-md cursor-pointer"
-        onClick={() => setProductModalOpen(true)}
+        onClick={() => setAddProductModalOpen(true)}
       >
         Add Product
       </button>
-      {productModalOpen &&
+      {addproductModalOpen &&
         createPortal(
-          <AddProductModal onClose={() => setProductModalOpen(false)} />,
+          <AddProductModal onClose={() => setAddProductModalOpen(false)} />,
           document.body,
         )}
       {
@@ -42,7 +48,13 @@ const Products = () => {
           ) : data && data?.products?.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
               {data?.products.map((product) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  isAddedToCart={cart.some(
+                    (cart) => cart.product.id === product.id,
+                  )}
+                />
               ))}
             </div>
           ) : (

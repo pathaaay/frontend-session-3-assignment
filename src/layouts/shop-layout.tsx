@@ -14,7 +14,6 @@ const queryClient = new QueryClient({
 const ShopLayout = () => {
   const route = useLocation();
   const navigate = useNavigate();
-  console.log({ route });
   useEffect(() => {
     if (route.key === "default") navigate("products", { replace: true });
   }, [route]);
