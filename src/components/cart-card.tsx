@@ -5,7 +5,7 @@ import {
   removeProductFromCart,
   decrementProductInCart,
   incrementProductInCart,
-} from "../store/slices/cartSlice";
+} from "../store/slices/cart-slice";
 import type { ProductType } from "../lib/types";
 
 interface CartCardProps {

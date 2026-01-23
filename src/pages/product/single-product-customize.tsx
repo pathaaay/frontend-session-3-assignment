@@ -2,7 +2,7 @@ import { useNavigate, useOutletContext } from "react-router";
 import { type ProductType } from "../../lib/types";
 import { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
-import { addToCart } from "../../store/slices/cartSlice";
+import { addToCart } from "../../store/slices/cart-slice";
 
 const SingleProductCustomize = () => {
   const dispatch = useDispatch();

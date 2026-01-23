@@ -2,7 +2,7 @@ import { Fragment } from "react/jsx-runtime";
 import { NavLink } from "react-router";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { loadCartDataFromLocalStorage } from "../store/slices/cartSlice";
+import { loadCartDataFromLocalStorage } from "../store/slices/cart-slice";
 import { useCart } from "../hooks/use-cart";
 
 const navItems = [

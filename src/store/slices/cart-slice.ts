@@ -12,6 +12,8 @@ const initialState: CartState = {
   cart: [],
 };
 
+const CART_KEY = "cart-data";
+
 export const cartSlice = createSlice({
   name: "cart-slice",
   initialState: initialState,
@@ -45,7 +47,7 @@ export const cartSlice = createSlice({
           return item;
         });
       }
-      localStorage.setItem("cart-data", JSON.stringify(state.cart));
+      localStorage.setItem(CART_KEY, JSON.stringify(state.cart));
     },
     incrementProductInCart: (state, { payload }) => {
       const { product } = payload;
@@ -68,7 +70,7 @@ export const cartSlice = createSlice({
           };
         } else return item;
       });
-      localStorage.setItem("cart-data", JSON.stringify(state.cart));
+      localStorage.setItem(CART_KEY, JSON.stringify(state.cart));
     },
     decrementProductInCart: (state, { payload }) => {
       const { product } = payload;
@@ -91,7 +93,7 @@ export const cartSlice = createSlice({
           };
         } else return item;
       });
-      localStorage.setItem("cart-data", JSON.stringify(state.cart));
+      localStorage.setItem(CART_KEY, JSON.stringify(state.cart));
     },
     removeProductFromCart: (state, { payload }) => {
       state.cart = state.cart.map((data) => {
@@ -106,14 +108,14 @@ export const cartSlice = createSlice({
         }
         return data;
       });
-      localStorage.setItem("cart-data", JSON.stringify(state.cart));
+      localStorage.setItem(CART_KEY, JSON.stringify(state.cart));
     },
     clearCart: (state) => {
       state.cart = [];
-      localStorage.removeItem("cart-data");
+      localStorage.removeItem(CART_KEY);
     },
     loadCartDataFromLocalStorage: (state) => {
-      const cartLocalData = localStorage.getItem("cart-data");
+      const cartLocalData = localStorage.getItem(CART_KEY);
       if (cartLocalData) {
         const parsedCartData = JSON.parse(cartLocalData);
         state.cart = parsedCartData;

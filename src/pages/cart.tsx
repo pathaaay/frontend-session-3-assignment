@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { type ProductType } from "../lib/types";
 import { NavLink } from "react-router";
 import { Button } from "../components/button";
-import { clearCart } from "../store/slices/cartSlice";
+import { clearCart } from "../store/slices/cart-slice";
 import { useCart } from "../hooks/use-cart";
 
 const CartPage = () => {
