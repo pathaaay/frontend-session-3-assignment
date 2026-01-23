@@ -1,5 +1,4 @@
 import { useDispatch } from "react-redux";
-import { fetchProductById } from "../queries/product";
 import { Button } from "./button";
 import { MinusIcon, PlusIcon, TrashIcon } from "lucide-react";
 import {
@@ -11,9 +10,8 @@ import type { ProductType } from "../lib/types";
 
 interface CartCardProps {
   product: ProductType;
-  idx: number;
 }
-const CartCard = ({ product, idx }: CartCardProps) => {
+const CartCard = ({ product }: CartCardProps) => {
   const dispatch = useDispatch();
   return (
     <div

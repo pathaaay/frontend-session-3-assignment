@@ -39,11 +39,10 @@ const CartPage = () => {
     <div className="p-5 gap-2 grid grid-cols-1 sm:grid-cols-2">
       {productsData.length > 0 ? (
         <div className="flex flex-col gap-2 items-start w-full">
-          {productsData.map((item, index) => (
+          {productsData.map((item) => (
             <CartCard
               key={item.id + item.color! + item.size}
               product={item}
-              idx={index}
             />
           ))}
         </div>
