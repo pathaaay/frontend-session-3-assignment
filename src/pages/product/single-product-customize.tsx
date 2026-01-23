@@ -1,30 +1,27 @@
-import {
-  NavLink,
-  useNavigate,
-  useOutletContext,
-  useParams,
-} from "react-router";
+import { useNavigate, useOutletContext } from "react-router";
 import { type ProductType } from "../../lib/types";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../store/slices/cartSlice";
 
 const SingleProductCustomize = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { productId } = useParams();
   const [customization, setCustomization] = useState({
     color: "blue",
     size: "UK-7",
   });
   const { product } = useOutletContext<{ product: ProductType }>();
 
+  const handleGoBack = useCallback(() => {
+    if (window && window.history.state && window.history.state.idx > 0)
+      navigate(-1); // Navigating if there is any previous route in tab
+    else navigate(`/shop/product/${product.id}`, { replace: true }); // else navigating to that particular id with replacing the history
+  }, []);
+
   return (
     <div className="fixed inset-0 bg-black/60 z-100 flex items-center justify-center">
-      <NavLink
-        to={`/shop/product/${productId}`}
-        className="absolute inset-0 cursor-default"
-      />
+      <div onClick={handleGoBack} className="absolute inset-0 cursor-default" />
       <div className="bg-gray-200 z-10 shadow-xl p-5 rounded-lg w-lg flex items-center justify-center ">
         <div className="flex flex-col gap-4 items-center justify-center w-full">
           <div>{product?.title}</div>

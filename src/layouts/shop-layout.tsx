@@ -15,7 +15,7 @@ const ShopLayout = () => {
   const route = useLocation();
   const navigate = useNavigate();
   useEffect(() => {
-    if (route.key === "default") navigate("products", { replace: true });
+    if (route.pathname === "/shop/") navigate("products", { replace: true });
   }, [route]);
 
   return (
