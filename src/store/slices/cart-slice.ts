@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { ProductType } from "../../lib/types";
 
+type CustomizationType = Array<{ color: string; size: string; qty: number }>;
+
 interface CartState {
   cart: Array<{
     product: ProductType;
-    customizations: Array<{ color: string; size: string; qty: number }>;
+    customizations: CustomizationType;
   }>;
 }
 
@@ -33,15 +35,40 @@ export const cartSlice = createSlice({
       else {
         state.cart = state.cart.map((item) => {
           if (item.product.id === payload.product.id) {
-            return {
-              ...item,
-              customizations: [
+            const isAlreadyCustomizedItem = item.customizations.find(
+              ({ color, size }) =>
+                payload.customization.size === size &&
+                payload.customization.color === color,
+            );
+            let tempData: CustomizationType = [];
+
+            if (isAlreadyCustomizedItem) {
+              tempData = [
+                ...item.customizations.map((data) => {
+                  if (
+                    data.color == payload.customization.color &&
+                    data.size === payload.customization.size
+                  ) {
+                    return {
+                      ...data,
+                      qty: data.qty + 1,
+                    };
+                  }
+                  return data;
+                }),
+              ];
+            } else {
+              tempData = [
                 ...item.customizations,
                 {
                   ...payload.customization,
                   qty: 1,
                 },
-              ],
+              ];
+            }
+            return {
+              ...item,
+              customizations: tempData,
             };
           }
           return item;
