@@ -5,17 +5,18 @@ import { Button } from "./button";
 
 interface ProductCardProps {
   product: ProductType;
+  isAddedToCart: boolean;
 }
 
 export const ProductCard = React.memo(function ProductCard({
   product,
+  isAddedToCart,
 }: ProductCardProps) {
   if (!product) return;
 
   const navigate = useNavigate();
 
   const isPremium = product.price > 500 ? true : false;
-
   return (
     <NavLink
       to={{
@@ -54,7 +55,10 @@ export const ProductCard = React.memo(function ProductCard({
       <Button
         variant="outline"
         className="flex items-center justify-center gap-2 w-full"
-        onClick={() => navigate(`/shop/product/${product.id}/customize`)}
+        onClick={(e) => {
+          e.preventDefault();
+          navigate(`/shop/product/${product.id}/customize`);
+        }}
       >
         Add to Cart{" "}
       </Button>
@@ -72,11 +76,13 @@ export const ProductCard = React.memo(function ProductCard({
           Premium
         </div>
       )}
-      {/* <div
-        className={`bg-linear-60 from-orange-500 to-pink-500 text-white font-medium text-center w-max absolute -top-1 right-0 rounded-md text-xs px-1 p-0.5 transition `}
-      >
-        Added to cart
-      </div> */}
+      {isAddedToCart && (
+        <div
+          className={`bg-linear-60 from-orange-500 to-pink-500 text-white font-medium text-center w-max absolute -top-1 right-0 rounded-md text-xs px-1 p-0.5 transition `}
+        >
+          Added to cart
+        </div>
+      )}
     </NavLink>
   );
 });
