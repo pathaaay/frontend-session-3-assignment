@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Outlet } from "react-router";
+import { useEffect } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -11,6 +12,13 @@ const queryClient = new QueryClient({
 });
 
 const ShopLayout = () => {
+  const route = useLocation();
+  const navigate = useNavigate();
+  console.log({ route });
+  useEffect(() => {
+    if (route.key === "default") navigate("products", { replace: true });
+  }, [route]);
+
   return (
     <div className="p-5 flex items-center justify-center w-full">
       <QueryClientProvider client={queryClient}>

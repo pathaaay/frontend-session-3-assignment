@@ -1,6 +1,6 @@
 import React from "react";
 import type { ProductType } from "../lib/types";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { Button } from "./button";
 
 interface ProductCardProps {
@@ -11,6 +11,8 @@ export const ProductCard = React.memo(function ProductCard({
   product,
 }: ProductCardProps) {
   if (!product) return;
+
+  const navigate = useNavigate();
 
   const isPremium = product.price > 500 ? true : false;
 
@@ -48,14 +50,15 @@ export const ProductCard = React.memo(function ProductCard({
           </div>
         ))}
       </div>
-      <NavLink to={`/shop/product/${product.id}/customize`}>
-        <Button
-          variant="outline"
-          className="flex items-center justify-center gap-2 w-full"
-        >
-          Add to Cart{" "}
-        </Button>
-      </NavLink>
+
+      <Button
+        variant="outline"
+        className="flex items-center justify-center gap-2 w-full"
+        onClick={() => navigate(`/shop/product/${product.id}/customize`)}
+      >
+        Add to Cart{" "}
+      </Button>
+
       {/* Low Stock Badge */}
       {product.stock < 5 && (
         <div className="p-0.5 px-1 text-xs absolute right-0 top-0 bg-orange-100 text-orange-500 rounded-md">
