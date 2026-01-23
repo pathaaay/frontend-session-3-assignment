@@ -1,9 +1,9 @@
 import { Fragment } from "react/jsx-runtime";
 import { NavLink } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
-import type { RootState } from "../redux/rootReducer";
+import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { loadCartDataFromLocalStorage } from "../store/slices/cartSlice";
+import { useCart } from "../hooks/use-cart";
 
 const navItems = [
   {
@@ -20,7 +20,7 @@ const navItems = [
   },
 ];
 export const Navbar = () => {
-  const { cart } = useSelector((state: RootState) => state.cart);
+  const { cart } = useCart();
   const dispatch = useDispatch();
 
   useEffect(() => {

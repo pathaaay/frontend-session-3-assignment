@@ -3,16 +3,14 @@ import { ProductCard } from "../components/product-card";
 import { createPortal } from "react-dom";
 import { useState } from "react";
 import AddProductModal from "../components/add-product-form";
-import { useSelector } from "react-redux";
-import type { RootState } from "../redux/rootReducer";
+import { useCart } from "../hooks/use-cart";
 
 const Products = () => {
   const { data, isFetching, error } = fetchProducts();
   const [addproductModalOpen, setAddProductModalOpen] = useState(false);
   // Using cart here because if the cart data changes then only products will rerendered the product card will only be rendered if the particular product is added or removed from cart.
   // Note: the product card will be rendered only once either we put here or in product card, because in products page we are not updating cart state in this page so.
-  const { cart } = useSelector((state: RootState) => state.cart);
-  console.log("product page rendering");
+  const { cart } = useCart();
   return (
     <div className="flex flex-col justify-start gap-2 p-2 w-full">
       <button

@@ -1,15 +1,15 @@
 import CartCard from "../components/cart-card";
-import { useDispatch, useSelector } from "react-redux";
-import type { RootState } from "../redux/rootReducer";
+import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { type ProductType } from "../lib/types";
 import { NavLink } from "react-router";
 import { Button } from "../components/button";
 import { clearCart } from "../store/slices/cartSlice";
+import { useCart } from "../hooks/use-cart";
 
 const CartPage = () => {
   const dispatch = useDispatch();
-  const { cart } = useSelector((state: RootState) => state.cart);
+  const { cart } = useCart();
   const [productsData, setProductsData] = useState<Array<ProductType>>([]);
 
   useEffect(() => {
